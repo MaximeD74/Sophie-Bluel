@@ -13,7 +13,6 @@ h2 {
 }
 label {
     font-size: 14px;
-   
     color: #3D3D3D;
     display: block;
     padding-bottom: 7px;
@@ -43,6 +42,9 @@ input[type="submit"] {
 	cursor: pointer;
     display: block;
     margin: 0 auto;
+	font-family: 'Syne';
+	font-weight: 700;
+	width: 180px;
 }
 
 a {

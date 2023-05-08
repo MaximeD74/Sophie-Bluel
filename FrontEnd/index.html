@@ -9,17 +9,20 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/65eadcf6ab.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
+	<div class="mode-edition">
+		<i class="fa-regular fa-pen-to-square"><span>Mode édition</span></i>
+		<input type="button" id="publier-changements" value="publier les changements">
+	</div>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<a href="./login.html">
-				<li>login</li>
-			</a>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li id="loginButton"><a href="./login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -28,6 +31,7 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<i class="fa-regular fa-pen-to-square"><span>modifier</span></i>
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -37,7 +41,10 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio-title">
+			<h2>Mes Projets</h2>
+			<a href="#myModal"><i class="fa-regular fa-pen-to-square" id="openModalButton"><span>modifier</span></i></a>
+		</div>
 		<div class="filters">
 			<button class="filter-btn" id="tous">Tous</button>
 			<button class="filter-btn" id="objets">Objets</button>
@@ -45,6 +52,34 @@
 			<button class="filter-btn" id="hotelsRestaurants">Hôtels & restaurants</button>
 		  </div>
 		<div class="gallery">
+		</div>
+	</section>
+	<section id="myModal" class="modal">
+		<div class="modalContent">
+			<span id="closeModalButton"><i class='fa-solid fa-xmark fa-lg'></i></span>
+			<h3 class="modalTitle">Galerie Photo</h3>
+			<div class="modalGallery"></div>
+			<div class="modalGalleryBar"></div>
+			<input type="submit" value="Ajouter une photo" id="ajoutPhoto">
+			<p>Supprimer la galerie</p>
+		</div>
+	</section>
+	<section id="modal2" class="modal">
+		<div class="modalContent">
+			<span id="closeModalButton"><i class='fa-solid fa-xmark fa-lg'></i></span>
+			<h3 class="modalTitle">Ajout Photo</h3>
+			<div class="ajoutPhotoSpace"></div>
+			<label for="titreAjoutPhoto">Titre</label>
+			<textarea name="titre" id="titreAjoutPhoto" cols="54" rows="1"></textarea>
+			<label for="categorieAjoutPhoto">Catégorie</label>
+			<select name="categorie" id="categorieAjoutPhoto" cols="60" rows="1">
+				<option value=""></option>
+				<option value="objets">Objets</option>
+				<option value="appartements">Appartements</option>
+				<option value="hotelsRestaurants">Hôtels & restaurants</option>
+			</select>
+			<div class="modalGalleryBar"></div>
+			<input type="submit" value="Valider" id="ajoutPhoto">
 		</div>
 	</section>
 	<section id="contact">

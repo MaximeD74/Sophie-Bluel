@@ -14,15 +14,10 @@ getTheWorks();
 //Affichage des travaux sur la page d'accueil
 function createWorks() {
   for (let i = 0; i < works.length; i++) {
-    // creation d'une constante pour placer l'image et son titre
     const newWork = document.createElement('figure');
-    //creation d'une constante pour les balises images
     const newWorkImg = document.createElement('img');
-    // attribution de la source grâce a l'imageUrl du tableau works
     newWorkImg.src = works[i].imageUrl;
-    //création d'une constante pour les balises figcaption (titre)
     const newWorkText = document.createElement('figcaption');
-    //attribution du texte grâce au title du tableau works
     newWorkText.innerHTML = works[i].title;
     //attribution d'un categoryId aux balises newWork pour pouvoir les filtrer
     newWork.setAttribute('categoryId', works[i].categoryId);
@@ -52,48 +47,38 @@ tousBtn.addEventListener("click", function() {
 });
 
 objetsBtn.addEventListener("click", function() {
-  //creation d'une constante pour définir les éléments du tableau works selon la categoryId qui correspond aux objets
+  //creation d'une constante pour filtrer les travaux de type "objet"
   const objets = works.filter(work => work.categoryId === 1);
   // on parcourt le tableau worksElements
   for (let i = 0; i < worksElements.length; i++) {
-    //on donne la condition "si l'élément parcouru dans le tableau works est un élément présent de la constante objets"
+    //condition "si l'élément parcouru dans le tableau works est un élément présent dans la constante objets"
     if (objets.includes(works[i])) {
-      //si true, on affiche le worksElements parcouru (balise figure avec l'image et son title) grâce au display block
+      //si true, on affiche le worksElements parcouru
       worksElements[i].style.display = "block";
     } else {
-      //sinon, on le cache grâce au display none
+      //sinon, on le cache
       worksElements[i].style.display = "none";
     }
   }
 });
 
 appartementsBtn.addEventListener("click", function() {
-  //creation d'une constante pour définir les éléments du tableau works selon la categoryId qui correspond aux appartements
   const appartements = works.filter(work => work.categoryId === 2);
-  // on parcourt le tableau worksElements
   for (let i = 0; i < worksElements.length; i++) {
-    //on donne la condition "si l'élément parcouru dans le tableau works est un élément présent de la constante appartements"
     if (appartements.includes(works[i])) {
-      //si true, on affiche le worksElements parcouru (balise figure avec l'image et son title) grâce au display block
       worksElements[i].style.display = "block";
     } else {
-      //sinon, on le cache grâce au display none
       worksElements[i].style.display = "none";
     }
   }
 });
 
 hotelsRestaurantsBtn.addEventListener("click", function() {
-  //creation d'une constante pour définir les éléments du tableau works selon la categoryId qui correspond aux Hôtels Restaurants
   const hotelsRestaurants = works.filter(work => work.categoryId === 3);
-  // on parcourt le tableau worksElements
   for (let i = 0; i < worksElements.length; i++) {
-    //on donne la condition "si l'élément parcouru dans le tableau works est un élément présent de la constante Hôtels Restaurants"
     if (hotelsRestaurants.includes(works[i])) {
-      //si true, on affiche le worksElements parcouru (balise figure avec l'image et son title) grâce au display block
       worksElements[i].style.display = "block";
     } else {
-      //sinon, on le cache grâce au display none
       worksElements[i].style.display = "none";
     }
   }
@@ -102,12 +87,129 @@ hotelsRestaurantsBtn.addEventListener("click", function() {
 }
 
 
+// récupération du token dans le local Storage
+const userToken = localStorage.getItem('token');
+
+if (userToken) {
+  const loginButton = document.querySelector("#loginButton");
+  loginButton.innerHTML = "<a href='./login.html'>logout</a>";
+
+  const h1Header = document.querySelector("header h1");
+  h1Header.style.marginTop = "38px";
+  const nav = document.querySelector("nav");
+  nav.style.marginTop ="38px"
+
+  const modeEditionBandeau = document.querySelector(".mode-edition");
+  modeEditionBandeau.style.display = "flex";
+
+  loginButton.addEventListener('click', function() {
+    localStorage.removeItem('token');
+    window.location.href = 'index.html';
+  });
+
+  // ajout des boutons modifier et positionnement "Mes Projets"
+  document.querySelector("#introduction i").style.display = "block";
+  document.querySelector("#portfolio i").style.display = "block";
+  document.querySelector(".portfolio-title").style.marginLeft = "115px";
 
 
+  //MODALE
+
+  const modal = document.getElementById("myModal");
+  const modalContent = document.querySelector(".modalContent");
+  const modalTitle = document.querySelector(".modalTitle")
+  const openModalButton = document.getElementById("openModalButton");
+  const closeModalButton = document.getElementById("closeModalButton");
 
 
+  openModalButton.addEventListener('click', function() {
+    openModal();
+  })
+
+  closeModalButton.addEventListener('click', function(e) {
+      closeModal();
+  })
+
+  modal.addEventListener('click', function(e) {
+    if (e.target !== modal) {
+      return
+    } else if (e.target !== modalContent) {
+      closeModal();
+    }
+  }) 
+
+  const modalGallery = document.querySelector(".modalGallery");
+  
+  let imagesImported = false;
+
+  function createModalGallery () {
+    for (let i = 0; i < works.length; i++) {
+    const newWork = document.createElement('figure');
+    newWork.setAttribute('data-id', works[i].id);
+    const newWorkImg = document.createElement('img');
+    newWorkImg.src = works[i].imageUrl;
+    const newWorkText = document.createElement('figcaption');
+    newWorkText.innerHTML = "editer";
+    const newDustBin = document.createElement('div')
+    newDustBin.classList = "dustbin"
+    newDustBin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
+
+    modalGallery.appendChild(newWork);
+    newWork.appendChild(newWorkImg);
+    newWork.appendChild(newWorkText);
+    newWork.appendChild(newDustBin)
+    
+    imagesImported = true;
+
+    
+    
+    newDustBin.addEventListener('click', function() {
+      const workId = newWork.getAttribute('data-id');
+      deleteWork(workId, newWork);
+    })
+    }
+  }
+
+  
+  const openModal = async function () {
+    modal.style.display = "flex"
+    if (!imagesImported) {
+      getTheWorks()
+      createModalGallery()
+      
+      
+      const boutonAjoutPhoto = document.getElementById("ajoutPhoto")
+      boutonAjoutPhoto.addEventListener('click', function() {
+        const modal2 = document.getElementById("modal2")
+        modal.style.display = "none"
+        modal2.style.display = "flex"
+      })
+    }
+  }
+  
+  async function deleteWork(workId, newWork) {
+      const response = await fetch(`http://localhost:5678/api/works/${workId}`, { method: 'DELETE' });
+      if (response.ok) {
+        works[i].remove();
+      } 
+    }
+  
+
+  const closeModal = function () {
+    modal.style.display = "none"
+  }
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+      closeModal(e)
+    }
+  })
+  
+
+}
 
 
+  
 
 
 
