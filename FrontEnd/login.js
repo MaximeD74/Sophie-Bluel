@@ -23,7 +23,5 @@ myForm.addEventListener('submit', function(event) {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-postMyForm (email, password); 
-
-
+    postMyForm (email, password); 
 })
