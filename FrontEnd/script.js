@@ -1,8 +1,10 @@
 const gallery = document.querySelector('.gallery');
+let works;
+import { apiURL } from "./apiURL.js";
 
 // Récupération des travaux depuis l'API
 async function getTheWorks() {
-  const getWorks = await fetch("http://localhost:5678/api/works");
+  const getWorks = await fetch(`${apiURL}works`);
   works = await getWorks.json();
 
   //appel de la fonction createWorks pour afficher les travaux
@@ -219,7 +221,7 @@ if (userToken) {
 
   // fonction pour supprimer les travaux
   async function deleteWork(workId, worksElements) {
-      const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+      const response = await fetch(`${apiURL}works/${workId}`, {
          headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json',
@@ -294,7 +296,7 @@ if (userToken) {
   // fonction pour envoyer une nouvelle photo 
   async function sendNewPhoto() {
     const formData = new FormData(document.getElementById("postNewPhotoForm"));
-    const newPhotoPosted = await fetch ('http://localhost:5678/api/works', {
+    const newPhotoPosted = await fetch (`${apiURL}works`, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
@@ -363,8 +365,6 @@ if (userToken) {
       sendNewPhoto(image, titre, categorie);
       retirerPrevisualisation()
       document.getElementById("postNewPhotoForm").reset();
-
-      console.log(works)
     }
   })
 

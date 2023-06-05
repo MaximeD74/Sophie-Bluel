@@ -1,3 +1,4 @@
+import { apiURL } from "./apiURL.js";
 const myForm = document.getElementById("myForm");
 
 async function postMyForm (mail, pass) {
@@ -5,7 +6,7 @@ async function postMyForm (mail, pass) {
         email: mail,
         password: pass
       }
-    const postForm = await fetch ("http://localhost:5678/api/users/login",{body: JSON.stringify(dataForm),method: "post",headers: {"Content-Type" : "application/json"}});
+    const postForm = await fetch (`${apiURL}users/login`,{body: JSON.stringify(dataForm),method: "post",headers: {"Content-Type" : "application/json"}});
     const result = await postForm.json();
 
     if (!result.token) {
